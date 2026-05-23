@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Men's Breakfast — Crossroads Basel</title>
+<meta name="description" content="The Men's Breakfast is a weekly gathering of men at Crossroads Basel. We meet every Saturday at 7:30 AM for Scripture-centered discussion, fellowship, and prayer." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --espresso: #1f1612;
+    --espresso-deep: #140d0a;
+    --cream: #f1e9d7;
+    --cream-soft: #faf6ec;
+    --cream-paper: #f6efe0;
+    --ochre: #c9933b;
+    --ochre-ink: #a06a23;
+    --ink: #2a1f15;
+    --ink-soft: #4a3c2d;
+    --rule: rgba(160, 106, 35, 0.28);
+
+    --serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+    --sans: "Inter", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+
+    --scale: 1;
+    --content-w: 1080px;
+    --gutter: clamp(20px, 4vw, 56px);
+  }
+
+  /* ── PALETTE MODES ─────────────────────────────────── */
+  /* Mode A: tight (dark hero, ochre rules everywhere) — default */
+  body[data-mode="tight"] {
+    --body-bg: var(--cream-soft);
+    --section-alt-bg: var(--cream);
+    --hero-bg: var(--espresso-deep);
+    --hero-fg: var(--cream);
+    --hero-accent: var(--ochre);
+    --verse-bg: var(--espresso);
+    --verse-fg: var(--cream);
+    --section-fg: var(--ink);
+    --label: var(--ochre-ink);
+    --rule-strength: 0.32;
+  }
+  /* Mode B: looser — cream-dominant, dark used sparingly */
+  body[data-mode="loose"] {
+    --body-bg: var(--cream-soft);
+    --section-alt-bg: var(--cream-paper);
+    --hero-bg: var(--cream);
+    --hero-fg: var(--ink);
+    --hero-accent: var(--ochre-ink);
+    --verse-bg: var(--cream-paper);
+    --verse-fg: var(--ink);
+    --section-fg: var(--ink);
+    --label: var(--ochre-ink);
+    --rule-strength: 0.22;
+  }
+  /* Mode C: editorial — restrained, lots of white, minimal color */
+  body[data-mode="editorial"] {
+    --body-bg: #fbf8f0;
+    --section-alt-bg: #fbf8f0;
+    --hero-bg: #fbf8f0;
+    --hero-fg: var(--ink);
+    --hero-accent: var(--ink);
+    --verse-bg: #fbf8f0;
+    --verse-fg: var(--ink);
+    --section-fg: var(--ink);
+    --label: #8a6a2a;
+    --rule-strength: 0.18;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--body-bg);
+    color: var(--section-fg);
+    font-family: var(--sans);
+    font-size: calc(17px * var(--scale));
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ── WOOD TEXTURE OVERLAY ──────────────────────────── */
+  .wood-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: var(--wood-opacity, 0);
+    transition: opacity .3s ease;
+  }
+  body[data-wood="on"] .wood-overlay { opacity: 0.18; }
+  body[data-mode="editorial"][data-wood="on"] .wood-overlay { opacity: 0.05; }
+  body[data-mode="loose"][data-wood="on"] .wood-overlay { opacity: 0.08; }
+
+  /* ── NAV ───────────────────────────────────────────── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    background: color-mix(in oklab, var(--body-bg) 78%, transparent);
+    border-bottom: 0.5px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 14px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+  }
+  .nav-mark {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: calc(20px * var(--scale));
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: 0.005em;
+    text-decoration: none;
+  }
+  .nav-mark .nm-the {
+    font-style: italic; font-weight: 400; color: var(--ochre-ink);
+    font-size: 0.7em;
+  }
+  .nav-links {
+    display: flex; gap: 28px;
+    font-family: var(--mono);
+    font-size: calc(11.5px * var(--scale));
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color .2s ease;
+  }
+  .nav-links a:hover { color: var(--ochre-ink); }
+  @media (max-width: 640px) {
+    .nav-links { gap: 16px; font-size: calc(10px * var(--scale)); letter-spacing: 0.14em; }
+  }
+
+  /* ── HERO ──────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    background: var(--hero-bg);
+    color: var(--hero-fg);
+    overflow: hidden;
+    padding: clamp(72px, 12vh, 140px) var(--gutter) clamp(64px, 10vh, 120px);
+  }
+  body[data-mode="tight"] .hero {
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(201,147,59,0.10) 0%, transparent 65%),
+      linear-gradient(180deg, var(--espresso-deep) 0%, var(--espresso) 100%);
+  }
+  .hero-inner {
+    position: relative;
+    max-width: var(--content-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1px 1fr;
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+  }
+  @media (max-width: 720px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 28px; }
+    .hero-rule { display: none; }
+    .hero-cross { justify-self: center; }
+  }
+  .hero-cross svg { display: block; }
+  .hero-rule { width: 1.5px; align-self: stretch; background: color-mix(in oklab, var(--hero-accent) 50%, transparent); }
+  .hero-text { display: flex; flex-direction: column; }
+  .hero-the {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    color: var(--hero-accent);
+    font-size: calc(34px * var(--scale));
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-weight: 600;
+    color: var(--hero-fg);
+    font-size: clamp(56px, calc(11vw * var(--scale)), 132px);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+  }
+  .hero-motto {
+    font-family: var(--serif); font-style: italic;
+    color: var(--hero-accent);
+    font-size: calc(28px * var(--scale));
+    line-height: 1.2;
+    margin-top: 18px;
+    max-width: 28ch;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 36px 56px;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 0.5px solid color-mix(in oklab, var(--hero-accent) 35%, transparent);
+  }
+  .hero-meta-block .lbl {
+    font-family: var(--mono);
+    font-size: calc(11px * var(--scale));
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--hero-accent);
+    margin-bottom: 6px;
+  }
+  .hero-meta-block .val {
+    font-family: var(--serif);
+    font-size: calc(22px * var(--scale));
+    line-height: 1.15;
+    color: var(--hero-fg);
+  }
+  .hero-cta {
+    margin-top: 36px;
+    display: inline-flex; align-items: center; gap: 14px;
+    font-family: var(--mono);
+    font-size: calc(11.5px * var(--scale));
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hero-fg);
+    background: transparent;
+    border: 1px solid var(--hero-accent);
+    padding: 14px 22px;
+    text-decoration: none;
+    transition: background .2s ease, color .2s ease;
+    align-self: start;
+  }
+  .hero-cta:hover {
+    background: var(--hero-accent);
+    color: var(--hero-bg);
+  }
+  body[data-mode="tight"] .hero-cta:hover { color: var(--espresso-deep); }
+
+  .hero-scroll {
+    position: absolute; left: 50%; bottom: 18px;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: calc(10px * var(--scale));
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--hero-fg) 55%, transparent);
+    text-decoration: none;
+  }
+
+  /* ── VERSE BANNER ──────────────────────────────────── */
+  .verse {
+    background: var(--verse-bg);
+    color: var(--verse-fg);
+    padding: clamp(80px, 12vh, 140px) var(--gutter);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .verse-inner { max-width: 920px; margin: 0 auto; position: relative; }
+  .verse-cite {
+    font-family: var(--mono);
+    font-size: calc(11.5px * var(--scale));
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--label);
+    margin-bottom: 28px;
+  }
+  .verse-text {
+    font-family: var(--serif); font-style: italic; font-weight: 500;
+    font-size: clamp(28px, calc(4.2vw * var(--scale)), 56px);
+    line-height: 1.18;
+    color: var(--verse-fg);
+    text-wrap: balance;
+  }
+  body[data-mode="tight"] .verse-text { color: var(--cream); }
+  .verse-em { color: var(--ochre); }
+  body[data-mode="loose"] .verse-em,
+  body[data-mode="editorial"] .verse-em { color: var(--ochre-ink); }
+
+  /* ── SECTION SHELL ─────────────────────────────────── */
+  section { position: relative; }
+  .section-inner {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: clamp(72px, 11vh, 128px) var(--gutter);
+  }
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: calc(11.5px * var(--scale));
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--label);
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 18px;
+  }
+  .section-eyebrow .dash {
+    flex: 0 0 36px; height: 1px; background: var(--ochre-ink); opacity: 0.6;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(40px, calc(6vw * var(--scale)), 72px);
+    line-height: 1.02;
+    letter-spacing: -0.005em;
+    color: var(--section-fg);
+    margin: 0 0 24px;
+    text-wrap: balance;
+  }
+  .section-lede {
+    font-family: var(--serif); font-style: italic;
+    font-size: calc(22px * var(--scale));
+    line-height: 1.35;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0 0 48px;
+  }
+
+  /* ── PRINCIPLES ────────────────────────────────────── */
+  .principles { background: var(--body-bg); }
+
+  .principle {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: clamp(28px, 5vw, 72px);
+    padding: clamp(48px, 7vh, 88px) 0;
+    border-top: 0.5px solid color-mix(in oklab, var(--ochre-ink) calc(var(--rule-strength) * 100%), transparent);
+  }
+  .principle:first-of-type { border-top: 0; padding-top: 24px; }
+  @media (max-width: 820px) {
+    .principle { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  .principle-marker {
+    position: sticky;
+    top: 80px;
+    align-self: start;
+  }
+  @media (max-width: 820px) { .principle-marker { position: static; } }
+  .principle-num {
+    font-family: var(--mono);
+    font-size: calc(11px * var(--scale));
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--label);
+    margin-bottom: 12px;
+  }
+  .principle-name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: calc(34px * var(--scale));
+    line-height: 1.05;
+    color: var(--section-fg);
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+
+  .qa-list { display: flex; flex-direction: column; gap: clamp(32px, 4vh, 48px); }
+  .qa { display: flex; flex-direction: column; }
+  .qa-q {
+    font-family: var(--serif); font-style: italic; font-weight: 500;
+    font-size: calc(26px * var(--scale));
+    line-height: 1.22;
+    color: var(--section-fg);
+    margin: 0 0 14px;
+    text-wrap: pretty;
+  }
+  .qa-q::before {
+    content: "Q.";
+    font-family: var(--mono); font-style: normal; font-weight: 600;
+    font-size: calc(11px * var(--scale));
+    letter-spacing: 0.18em;
+    color: var(--ochre-ink);
+    vertical-align: 0.45em;
+    margin-right: 12px;
+  }
+  .qa-a {
+    font-family: var(--sans);
+    font-size: calc(17px * var(--scale));
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 64ch;
+    text-wrap: pretty;
+  }
+  .qa-a::before {
+    content: "A.";
+    font-family: var(--mono); font-weight: 600;
+    font-size: calc(11px * var(--scale));
+    letter-spacing: 0.18em;
+    color: var(--ochre-ink);
+    vertical-align: 0.4em;
+    margin-right: 12px;
+  }
+  .qa-ref {
+    font-family: var(--mono);
+    font-size: calc(10.5px * var(--scale));
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ochre-ink);
+    margin-top: 18px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .qa-ref::before {
+    content: ""; width: 22px; height: 1px; background: currentColor; opacity: 0.5;
+  }
+
+  /* ── LOGISTICS ─────────────────────────────────────── */
+  .logistics { background: var(--section-alt-bg); position: relative; overflow: hidden; }
+  .logistics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 12px;
+  }
+  @media (max-width: 720px) { .logistics-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  .log-card {
+    border: 0.5px solid var(--rule);
+    background: color-mix(in oklab, var(--body-bg) 50%, white);
+    padding: 36px 32px;
+    position: relative;
+  }
+  body[data-mode="editorial"] .log-card { background: transparent; }
+  .log-card-eyebrow {
+    font-family: var(--mono);
+    font-size: calc(11px * var(--scale));
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--label);
+    margin-bottom: 18px;
+  }
+  .log-when {
+    font-family: var(--serif); font-weight: 500;
+    font-size: calc(40px * var(--scale));
+    line-height: 1.05;
+    color: var(--section-fg);
+    margin-bottom: 6px;
+  }
+  .log-when-sub {
+    font-family: var(--serif); font-style: italic;
+    font-size: calc(20px * var(--scale));
+    color: var(--ink-soft);
+    line-height: 1.3;
+  }
+  .log-schedule {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 18px;
+    font-family: var(--mono);
+    font-size: calc(13px * var(--scale));
+    color: var(--ink-soft);
+  }
+  .log-schedule b {
+    color: var(--ochre-ink); font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .log-where-name {
+    font-family: var(--serif); font-weight: 600;
+    font-size: calc(28px * var(--scale));
+    line-height: 1.15;
+    color: var(--section-fg);
+    margin-bottom: 10px;
+  }
+  .log-where-addr {
+    font-family: var(--sans);
+    font-size: calc(15px * var(--scale));
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .log-where-addr a {
+    color: var(--ochre-ink);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in oklab, var(--ochre-ink) 40%, transparent);
+  }
+  .log-where-addr a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* ── CONTACT ───────────────────────────────────────── */
+  .contact {
+    background: var(--hero-bg);
+    color: var(--hero-fg);
+    position: relative; overflow: hidden;
+  }
+  body[data-mode="tight"] .contact {
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(201,147,59,0.08) 0%, transparent 70%),
+      linear-gradient(180deg, var(--espresso) 0%, var(--espresso-deep) 100%);
+  }
+  body[data-mode="editorial"] .contact { background: #f5f0e2; color: var(--ink); }
+  .contact .section-eyebrow { color: var(--hero-accent); }
+  body[data-mode="editorial"] .contact .section-eyebrow { color: var(--ochre-ink); }
+  .contact .section-eyebrow .dash { background: var(--hero-accent); }
+  .contact .section-title { color: var(--hero-fg); }
+  body[data-mode="editorial"] .contact .section-title { color: var(--ink); }
+  .contact .section-lede { color: color-mix(in oklab, var(--hero-fg) 75%, transparent); }
+  body[data-mode="editorial"] .contact .section-lede { color: var(--ink-soft); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    margin-top: 32px;
+    align-items: start;
+  }
+  @media (max-width: 820px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  .contact-card { display: flex; flex-direction: column; gap: 20px; }
+  .contact-card .lbl {
+    font-family: var(--mono);
+    font-size: calc(11px * var(--scale));
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hero-accent);
+  }
+  body[data-mode="editorial"] .contact-card .lbl { color: var(--ochre-ink); }
+  .contact-email {
+    font-family: var(--serif);
+    font-size: clamp(26px, calc(3.4vw * var(--scale)), 44px);
+    line-height: 1.1;
+    color: var(--hero-fg);
+    text-decoration: none;
+    word-break: break-word;
+    border-bottom: 1px solid color-mix(in oklab, var(--hero-accent) 40%, transparent);
+    padding-bottom: 8px;
+    align-self: start;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  body[data-mode="editorial"] .contact-email { color: var(--ink); }
+  .contact-email:hover { color: var(--hero-accent); border-bottom-color: var(--hero-accent); }
+  body[data-mode="editorial"] .contact-email:hover { color: var(--ochre-ink); border-bottom-color: var(--ochre-ink); }
+  .contact-note {
+    font-family: var(--serif); font-style: italic;
+    font-size: calc(20px * var(--scale));
+    line-height: 1.45;
+    color: color-mix(in oklab, var(--hero-fg) 80%, transparent);
+    max-width: 36ch;
+  }
+  body[data-mode="editorial"] .contact-note { color: var(--ink-soft); }
+
+  /* form */
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field-label {
+    font-family: var(--mono);
+    font-size: calc(10.5px * var(--scale));
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--hero-accent);
+  }
+  body[data-mode="editorial"] .field-label { color: var(--ochre-ink); }
+  .field input, .field textarea {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--hero-accent) 35%, transparent);
+    padding: 10px 0;
+    color: var(--hero-fg);
+    font-family: var(--serif);
+    font-size: calc(19px * var(--scale));
+    line-height: 1.4;
+    outline: none;
+    transition: border-color .2s ease;
+    resize: vertical;
+  }
+  body[data-mode="editorial"] .field input,
+  body[data-mode="editorial"] .field textarea { color: var(--ink); }
+  .field input:focus, .field textarea:focus {
+    border-bottom-color: var(--hero-accent);
+  }
+  .field textarea { min-height: 96px; }
+  .form-submit {
+    align-self: start;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: calc(11.5px * var(--scale));
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hero-fg);
+    background: transparent;
+    border: 1px solid var(--hero-accent);
+    padding: 14px 26px;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+  }
+  body[data-mode="editorial"] .form-submit { color: var(--ink); }
+  .form-submit:hover { background: var(--hero-accent); color: var(--hero-bg); }
+  body[data-mode="editorial"] .form-submit:hover { color: white; }
+  body[data-mode="tight"] .form-submit:hover { color: var(--espresso-deep); }
+
+  /* ── FOOTER ────────────────────────────────────────── */
+  footer {
+    background: var(--body-bg);
+    color: var(--ink-soft);
+    border-top: 0.5px solid var(--rule);
+  }
+  .footer-inner {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 36px var(--gutter);
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: calc(11px * var(--scale));
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .footer-inner .mark {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-style: italic;
+    font-size: calc(15px * var(--scale));
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
+  }
+  .footer-inner a { color: inherit; text-decoration: none; }
+  .footer-inner a:hover { color: var(--ochre-ink); }
+
+  /* selection */
+  ::selection { background: var(--ochre); color: var(--espresso-deep); }
+
+  /* tweaks mount */
+  #tweaks-root { position: fixed; right: 0; bottom: 0; z-index: 100; }
+</style>
+</head>
+<body data-mode="tight" data-wood="on">
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-mark">
+      <svg width="18" height="22" viewBox="0 0 80 100" fill="none" stroke="currentColor" stroke-width="6" aria-hidden="true">
+        <line x1="40" y1="6" x2="40" y2="94"></line>
+        <line x1="18" y1="34" x2="62" y2="34"></line>
+      </svg>
+      <span><span class="nm-the">The</span> Men's Breakfast</span>
+    </a>
+    <div class="nav-links">
+      <a href="#principles">Principles</a>
+      <a href="#logistics">Logistics</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<header class="hero" id="top">
+  <svg class="wood-overlay" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+    <g stroke="rgba(0,0,0,1)" stroke-width="2">
+      <line x1="0" y1="120" x2="1200" y2="118" />
+      <line x1="0" y1="270" x2="1200" y2="275" />
+      <line x1="0" y1="420" x2="1200" y2="415" />
+      <line x1="0" y1="580" x2="1200" y2="585" />
+    </g>
+    <g stroke="rgba(255,225,180,0.5)" stroke-width="1.2" stroke-linecap="round">
+      <line x1="0" y1="60" x2="720" y2="64" />
+      <line x1="360" y1="180" x2="1200" y2="178" />
+      <line x1="0" y1="220" x2="540" y2="226" />
+      <line x1="600" y1="340" x2="1200" y2="336" />
+      <line x1="0" y1="380" x2="840" y2="384" />
+      <line x1="240" y1="500" x2="1140" y2="496" />
+      <line x1="0" y1="540" x2="660" y2="544" />
+      <line x1="480" y1="640" x2="1200" y2="638" />
+    </g>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="hero-cross">
+      <svg width="120" height="150" viewBox="0 0 80 100" fill="none" stroke="var(--hero-accent)" stroke-width="9" stroke-linecap="square" aria-hidden="true">
+        <line x1="40" y1="6" x2="40" y2="94"></line>
+        <line x1="18" y1="34" x2="62" y2="34"></line>
+      </svg>
+    </div>
+    <div class="hero-rule"></div>
+    <div class="hero-text">
+      <div class="hero-the">The</div>
+      <h1 class="hero-name">Men's<br />Breakfast</h1>
+      <p class="hero-motto" data-tweak="motto">As iron sharpens iron, so one man sharpens another.</p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-block">
+          <div class="lbl">Meets</div>
+          <div class="val">Saturdays · 7:30—9:00 AM</div>
+        </div>
+        <div class="hero-meta-block">
+          <div class="lbl">Where</div>
+          <div class="val">Crossroads Basel<br /><span style="font-size: 0.72em; font-style: italic; opacity: 0.78;">Reinacherstrasse 129, 3rd Floor · 4053 Basel</span></div>
+        </div>
+      </div>
+
+      <a href="#contact" class="hero-cta">
+        <span>Join us this Saturday</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+  <a href="#verse" class="hero-scroll">Scroll ↓</a>
+</header>
+
+<!-- ════════════════ VERSE ════════════════ -->
+<section class="verse" id="verse">
+  <svg class="wood-overlay" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <g stroke="rgba(0,0,0,1)" stroke-width="2">
+      <line x1="0" y1="100" x2="1200" y2="98" />
+      <line x1="0" y1="240" x2="1200" y2="244" />
+    </g>
+    <g stroke="rgba(255,225,180,0.5)" stroke-width="1.2" stroke-linecap="round">
+      <line x1="0" y1="40" x2="720" y2="44" />
+      <line x1="360" y1="160" x2="1200" y2="158" />
+      <line x1="0" y1="310" x2="540" y2="316" />
+      <line x1="600" y1="350" x2="1200" y2="346" />
+    </g>
+  </svg>
+  <div class="verse-inner">
+    <div class="verse-cite">— Proverbs 27:17</div>
+    <div class="verse-text">
+      "As iron sharpens iron,<br />
+      so <span class="verse-em">one man sharpens another.</span>"
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PRINCIPLES ════════════════ -->
+<section class="principles" id="principles">
+  <div class="section-inner">
+    <div class="section-eyebrow"><span class="dash"></span><span>Our guiding principles</span></div>
+    <h2 class="section-title">Five things that shape<br />how we gather.</h2>
+    <p class="section-lede">
+      We're a group of men who meet weekly to study Scripture, share life, and pray together.
+      These principles keep our time honest, focused, and rooted in the Word.
+    </p>
+
+    <!-- ── I · Scripture-Centered Discussion ─────── -->
+    <article class="principle">
+      <div class="principle-marker">
+        <div class="principle-num">I · Principle One</div>
+        <h3 class="principle-name">Scripture-Centered Discussion</h3>
+      </div>
+      <div class="qa-list">
+        <div class="qa">
+          <p class="qa-q">What is the primary focus of our breakfast discussions?</p>
+          <p class="qa-a">To grow in our understanding of God through Christ-centered conversation, recognizing that Scripture is a deep well always worth exploring together. We seek not only to understand God's Word but to be shaped by it — in our character, leadership, families, and daily lives.</p>
+          <span class="qa-ref">Psalm 119:105</span>
+        </div>
+        <div class="qa">
+          <p class="qa-q">Why do we prioritize discussing God over other topics?</p>
+          <p class="qa-a">Our main focus is growing in the knowledge of God through His Word, since a right understanding of Scripture shapes how we see everything else. Other topics like politics or current events may come up, but we discuss through a biblical lens and avoid debates that distract from spiritual growth.</p>
+          <span class="qa-ref">2 Peter 3:18</span>
+        </div>
+        <div class="qa">
+          <p class="qa-q">How should we approach different perspectives within our group?</p>
+          <p class="qa-a">We welcome different perspectives on the faith, sharpening one another like iron sharpens iron, but we look to Scripture as our shared foundation and final guide in every discussion.</p>
+          <span class="qa-ref">Proverbs 27:17</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── II · Confidentiality ──────────────────── -->
+    <article class="principle">
+      <div class="principle-marker">
+        <div class="principle-num">II · Principle Two</div>
+        <h3 class="principle-name">Confidentiality</h3>
+      </div>
+      <div class="qa-list">
+        <div class="qa">
+          <p class="qa-q">What makes this group a safe space for men?</p>
+          <p class="qa-a">We gather as brothers in Christ to talk openly about life's struggles and joys. In a world where men are often expected to appear strong and self-sufficient, this is a place to be honest, vulnerable, and supported.</p>
+          <span class="qa-ref">Psalm 55:22</span>
+        </div>
+        <div class="qa">
+          <p class="qa-q">How do we ensure that trust is preserved?</p>
+          <p class="qa-a">We keep personal stories and struggles confidential. What is shared within the group stays within the group, out of respect and love for one another.</p>
+          <span class="qa-ref">Proverbs 29:11</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── III · Teaching vs Facilitation ────────── -->
+    <article class="principle">
+      <div class="principle-marker">
+        <div class="principle-num">III · Principle Three</div>
+        <h3 class="principle-name">Teaching vs Facilitation</h3>
+      </div>
+      <div class="qa-list">
+        <div class="qa">
+          <p class="qa-q">Who is the teacher in our small group?</p>
+          <p class="qa-a">The Word of God alone, preserved in the Bible, is our teacher. No man among us holds the position of teacher — but we learn from each other.</p>
+          <span class="qa-ref">John 14:26</span>
+        </div>
+        <div class="qa">
+          <p class="qa-q">What is the role of a facilitator, and how does it differ from a teacher?</p>
+          <p class="qa-a">The facilitator keeps the conversation centered on Scripture, ensures time is well managed, and makes space for everyone to contribute — guiding discussion and prompting reflection rather than instructing or teaching. He doesn't come to teach but to serve the group by pointing everyone back to the Word of God and keeping conversations centered on Christ, believing we can learn from one another as Scripture leads.</p>
+          <span class="qa-ref">2 Corinthians 1:24</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── IV · Praying Together ─────────────────── -->
+    <article class="principle">
+      <div class="principle-marker">
+        <div class="principle-num">IV · Principle Four</div>
+        <h3 class="principle-name">Praying Together</h3>
+      </div>
+      <div class="qa-list">
+        <div class="qa">
+          <p class="qa-q">How do we pray together?</p>
+          <p class="qa-a">We conclude each gathering with a time of shared prayer requests. Anyone may pray openly, follow along silently, or lift their prayers quietly before God.</p>
+          <span class="qa-ref">Matthew 18:19—20</span>
+        </div>
+        <div class="qa">
+          <p class="qa-q">Why do we value prayer?</p>
+          <p class="qa-a">Prayer unites us in spirit and purpose. As we lift one another's burdens before God, we strengthen our brotherhood and grow together in faith.</p>
+          <span class="qa-ref">James 5:16</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── V · Simplicity in Gathering ───────────── -->
+    <article class="principle">
+      <div class="principle-marker">
+        <div class="principle-num">V · Principle Five</div>
+        <h3 class="principle-name">Simplicity in Gathering</h3>
+      </div>
+      <div class="qa-list">
+        <div class="qa">
+          <p class="qa-q">When and where do we meet?</p>
+          <p class="qa-a">We meet at Crossroads Basel every Saturday at 7:30 AM. Discussion begins at 8:00, and prayer concludes at 9:00 AM. Our schedule usually does not change throughout the seasons or holidays — if there's ever a change in time or location, it will be notified in advance.</p>
+        </div>
+        <div class="qa">
+          <p class="qa-q">Why do we keep our schedule and format simple?</p>
+          <p class="qa-a">Because consistency fosters faithfulness. Wherever two or three are gathered, the Holy Spirit is with us, and keeping things simple removes barriers to fellowship.</p>
+          <span class="qa-ref">Matthew 18:20</span>
+        </div>
+        <div class="qa">
+          <p class="qa-q">What should I bring for breakfast?</p>
+          <p class="qa-a">Bring whatever you wish to share, without pressure or expectation. There is no need to impress — only to participate joyfully.</p>
+        </div>
+        <div class="qa">
+          <p class="qa-q">Why do we keep breakfast simple?</p>
+          <p class="qa-a">To maintain focus on fellowship rather than food. The goal is gathering together in Christ, not what's on the table.</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ════════════════ LOGISTICS ════════════════ -->
+<section class="logistics" id="logistics">
+  <svg class="wood-overlay" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+    <g stroke="rgba(0,0,0,1)" stroke-width="2">
+      <line x1="0" y1="180" x2="1200" y2="178" />
+      <line x1="0" y1="420" x2="1200" y2="424" />
+    </g>
+    <g stroke="rgba(160,106,35,0.4)" stroke-width="1.2" stroke-linecap="round">
+      <line x1="0" y1="80" x2="720" y2="84" />
+      <line x1="360" y1="280" x2="1200" y2="278" />
+      <line x1="0" y1="340" x2="540" y2="346" />
+      <line x1="600" y1="520" x2="1200" y2="516" />
+    </g>
+  </svg>
+  <div class="section-inner">
+    <div class="section-eyebrow"><span class="dash"></span><span>Logistics</span></div>
+    <h2 class="section-title">When, where,<br />and what to bring.</h2>
+
+    <div class="logistics-grid">
+      <div class="log-card">
+        <div class="log-card-eyebrow">When</div>
+        <div class="log-when">Every Saturday</div>
+        <div class="log-when-sub">Rain or shine, holiday or not.</div>
+        <div class="log-schedule">
+          <b>7:30 AM</b><span>Doors open · coffee and breakfast</span>
+          <b>8:00 AM</b><span>Scripture discussion begins</span>
+          <b>9:00 AM</b><span>Shared prayer · close</span>
+        </div>
+      </div>
+
+      <div class="log-card">
+        <div class="log-card-eyebrow">Where</div>
+        <div class="log-where-name">Crossroads International<br />Church Basel</div>
+        <div class="log-where-addr">
+          Reinacherstrasse 129, 3rd Floor<br />
+          CH-4053 Basel, Switzerland<br /><br />
+          <a href="https://maps.google.com/?q=Reinacherstrasse+129,+4053+Basel" target="_blank" rel="noopener">Open in Maps ↗</a>
+        </div>
+        <div class="log-schedule" style="margin-top: 28px;">
+          <b>Bring</b><span>Something to share, if you'd like — no pressure.</span>
+          <b>Cost</b><span>None. Just come.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CONTACT ════════════════ -->
+<section class="contact" id="contact">
+  <svg class="wood-overlay" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+    <g stroke="rgba(0,0,0,1)" stroke-width="2">
+      <line x1="0" y1="160" x2="1200" y2="158" />
+      <line x1="0" y1="380" x2="1200" y2="385" />
+      <line x1="0" y1="560" x2="1200" y2="556" />
+    </g>
+    <g stroke="rgba(255,225,180,0.5)" stroke-width="1.2" stroke-linecap="round">
+      <line x1="0" y1="80" x2="720" y2="84" />
+      <line x1="360" y1="240" x2="1200" y2="238" />
+      <line x1="0" y1="320" x2="540" y2="326" />
+      <line x1="600" y1="460" x2="1200" y2="456" />
+      <line x1="0" y1="640" x2="840" y2="644" />
+    </g>
+  </svg>
+  <div class="section-inner">
+    <div class="section-eyebrow"><span class="dash"></span><span>Get in touch</span></div>
+    <h2 class="section-title">Come hungry.<br />Leave sharpened.</h2>
+    <p class="section-lede">
+      First-timers are always welcome. Drop us a line, or just show up
+      this Saturday — no introductions needed.
+    </p>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="lbl">Email</div>
+        <a class="contact-email" href="mailto:mensbreakfastbasel@gmail.com">mensbreakfastbasel@gmail.com</a>
+        <div class="contact-note">
+          We typically reply within a day. If you'd like a personal welcome
+          before your first Saturday, just say so.
+        </div>
+      </div>
+
+      <form class="form" action="mailto:mensbreakfastbasel@gmail.com" method="post" enctype="text/plain" onsubmit="return handleContact(event)">
+        <div class="field">
+          <label class="field-label" for="f-name">Your name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label class="field-label" for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label class="field-label" for="f-msg">A short note</label>
+          <textarea id="f-msg" name="message" rows="3" placeholder="Anything you'd like us to know."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="mark">The Men's Breakfast · Crossroads Basel</div>
+    <div>Saturdays 7:30—9:00 AM</div>
+    <a href="mailto:mensbreakfastbasel@gmail.com">mensbreakfastbasel@gmail.com</a>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+
+<!-- React + Babel for the tweaks panel only -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<script>
+  function handleContact(e) {
+    // Don't actually POST via mailto (browsers handle this oddly).
+    // Open mailto: with composed subject/body instead.
+    e.preventDefault();
+    const f = e.target;
+    const name = encodeURIComponent(f.name.value || "");
+    const email = encodeURIComponent(f.email.value || "");
+    const msg = encodeURIComponent(f.message.value || "");
+    const body = `From: ${decodeURIComponent(name)} <${decodeURIComponent(email)}>%0D%0A%0D%0A${msg}`;
+    window.location.href = `mailto:mensbreakfastbasel@gmail.com?subject=${encodeURIComponent("Men's Breakfast — Hello")}&body=${body}`;
+    return false;
+  }
+</script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "vibe": "tight",
+  "wood": false,
+  "motto": "As iron sharpens iron, so one man sharpens another.",
+  "scale": 1
+}/*EDITMODE-END*/;
+
+function MBTweaksApp() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  // Reflect onto DOM
+  React.useEffect(() => {
+    document.body.dataset.mode = t.vibe;
+    document.body.dataset.wood = t.wood ? "on" : "off";
+    document.documentElement.style.setProperty("--scale", t.scale);
+    const motto = document.querySelector('[data-tweak="motto"]');
+    if (motto && motto.textContent !== t.motto) motto.textContent = t.motto;
+  }, [t.vibe, t.wood, t.motto, t.scale]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Visual register">
+        <TweakRadio
+          label="Vibe"
+          value={t.vibe}
+          options={[
+            { value: "tight", label: "Tight" },
+            { value: "loose", label: "Loose" },
+            { value: "editorial", label: "Editorial" }
+          ]}
+          onChange={(v) => setTweak("vibe", v)}
+        />
+        <TweakToggle label="Wood-grain texture" value={t.wood}
+          onChange={(v) => setTweak("wood", v)} />
+      </TweakSection>
+      <TweakSection label="Hero">
+        <TweakText label="Motto" value={t.motto}
+          onChange={(v) => setTweak("motto", v)} />
+      </TweakSection>
+      <TweakSection label="Type">
+        <TweakSlider label="Scale" value={t.scale} min={0.85} max={1.2} step={0.05}
+          onChange={(v) => setTweak("scale", v)} />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+const tweaksRoot = ReactDOM.createRoot(document.getElementById("tweaks-root"));
+tweaksRoot.render(<MBTweaksApp />);
+</script>
+
+</body>
+</html>
