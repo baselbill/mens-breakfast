@@ -483,9 +483,70 @@
     color: var(--ochre-ink);
     margin-top: 18px;
     display: inline-flex; align-items: center; gap: 12px;
+    cursor: default;
+    transition: color .15s ease;
   }
   .qa-ref::before {
     content: ""; width: 22px; height: 1px; background: currentColor; opacity: 0.5;
+    flex-shrink: 0;
+  }
+  /* When a verse is available, show interactive cue */
+  .qa-ref[data-verse] {
+    cursor: help;
+  }
+  .qa-ref[data-verse] .qa-ref-label {
+    border-bottom: 1px dotted currentColor;
+    padding-bottom: 1px;
+  }
+  .qa-ref[data-verse]:hover,
+  .qa-ref[data-verse]:focus-visible {
+    color: var(--ink);
+    outline: none;
+  }
+
+  /* ── SCRIPTURE TOOLTIP ─────────────────────────────── */
+  .verse-tip {
+    position: fixed;
+    z-index: 500;
+    width: 288px;
+    max-width: calc(100vw - 24px);
+    background: var(--espresso-deep);
+    border: 0.5px solid rgba(201, 147, 59, 0.4);
+    padding: 16px 20px 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .18s ease, transform .18s ease;
+    /* ensure it appears above everything */
+  }
+  .verse-tip.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .verse-tip-ref {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ochre);
+    margin-bottom: 10px;
+  }
+  .verse-tip-text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--cream);
+  }
+  .verse-tip-translation {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(241, 233, 215, 0.4);
+    margin-top: 10px;
   }
 
   /* ── LOGISTICS ─────────────────────────────────────── */
@@ -853,17 +914,17 @@
         <div class="qa">
           <p class="qa-q">What is the primary focus of our breakfast discussions?</p>
           <p class="qa-a">To grow in our understanding of God through Christ-centered conversation, recognizing that Scripture is a deep well always worth exploring together. We seek not only to understand God's Word but to be shaped by it — in our character, leadership, families, and daily lives.</p>
-          <span class="qa-ref">Psalm 119:105</span>
+          <span class="qa-ref"><span class="qa-ref-label">Psalm 119:105</span></span>
         </div>
         <div class="qa">
           <p class="qa-q">Why do we prioritize discussing God over other topics?</p>
           <p class="qa-a">Our main focus is growing in the knowledge of God through His Word, since a right understanding of Scripture shapes how we see everything else. Other topics like politics or current events may come up, but we discuss through a biblical lens and avoid debates that distract from spiritual growth.</p>
-          <span class="qa-ref">2 Peter 3:18</span>
+          <span class="qa-ref"><span class="qa-ref-label">2 Peter 3:18</span></span>
         </div>
         <div class="qa">
           <p class="qa-q">How should we approach different perspectives within our group?</p>
           <p class="qa-a">We welcome different perspectives on the faith, sharpening one another like iron sharpens iron, but we look to Scripture as our shared foundation and final guide in every discussion.</p>
-          <span class="qa-ref">Proverbs 27:17</span>
+          <span class="qa-ref"><span class="qa-ref-label">Proverbs 27:17</span></span>
         </div>
       </div>
     </article>
@@ -878,12 +939,12 @@
         <div class="qa">
           <p class="qa-q">What makes this group a safe space for men?</p>
           <p class="qa-a">We gather as brothers in Christ to talk openly about life's struggles and joys. In a world where men are often expected to appear strong and self-sufficient, this is a place to be honest, vulnerable, and supported.</p>
-          <span class="qa-ref">Psalm 55:22</span>
+          <span class="qa-ref"><span class="qa-ref-label">Psalm 55:22</span></span>
         </div>
         <div class="qa">
           <p class="qa-q">How do we ensure that trust is preserved?</p>
           <p class="qa-a">We keep personal stories and struggles confidential. What is shared within the group stays within the group, out of respect and love for one another.</p>
-          <span class="qa-ref">Proverbs 29:11</span>
+          <span class="qa-ref"><span class="qa-ref-label">Proverbs 29:11</span></span>
         </div>
       </div>
     </article>
@@ -898,12 +959,12 @@
         <div class="qa">
           <p class="qa-q">Who is the teacher in our small group?</p>
           <p class="qa-a">The Word of God alone, preserved in the Bible, is our teacher. No man among us holds the position of teacher — but we learn from each other.</p>
-          <span class="qa-ref">John 14:26</span>
+          <span class="qa-ref"><span class="qa-ref-label">John 14:26</span></span>
         </div>
         <div class="qa">
           <p class="qa-q">What is the role of a facilitator, and how does it differ from a teacher?</p>
           <p class="qa-a">The facilitator keeps the conversation centered on Scripture, ensures time is well managed, and makes space for everyone to contribute — guiding discussion and prompting reflection rather than instructing or teaching. He doesn't come to teach but to serve the group by pointing everyone back to the Word of God and keeping conversations centered on Christ, believing we can learn from one another as Scripture leads.</p>
-          <span class="qa-ref">2 Corinthians 1:24</span>
+          <span class="qa-ref"><span class="qa-ref-label">2 Corinthians 1:24</span></span>
         </div>
       </div>
     </article>
@@ -918,12 +979,12 @@
         <div class="qa">
           <p class="qa-q">How do we pray together?</p>
           <p class="qa-a">We conclude each gathering with a time of shared prayer requests. Anyone may pray openly, follow along silently, or lift their prayers quietly before God.</p>
-          <span class="qa-ref">Matthew 18:19—20</span>
+          <span class="qa-ref"><span class="qa-ref-label">Matthew 18:19—20</span></span>
         </div>
         <div class="qa">
           <p class="qa-q">Why do we value prayer?</p>
           <p class="qa-a">Prayer unites us in spirit and purpose. As we lift one another's burdens before God, we strengthen our brotherhood and grow together in faith.</p>
-          <span class="qa-ref">James 5:16</span>
+          <span class="qa-ref"><span class="qa-ref-label">James 5:16</span></span>
         </div>
       </div>
     </article>
@@ -942,7 +1003,7 @@
         <div class="qa">
           <p class="qa-q">Why do we keep our schedule and format simple?</p>
           <p class="qa-a">Because consistency fosters faithfulness. Wherever two or three are gathered, the Holy Spirit is with us, and keeping things simple removes barriers to fellowship.</p>
-          <span class="qa-ref">Matthew 18:20</span>
+          <span class="qa-ref"><span class="qa-ref-label">Matthew 18:20</span></span>
         </div>
         <div class="qa">
           <p class="qa-q">What should I bring for breakfast?</p>
@@ -1066,7 +1127,140 @@
   </div>
 </footer>
 
+<!-- Scripture verse tooltip -->
+<div id="verse-tip" class="verse-tip" role="tooltip" aria-live="polite" aria-atomic="true"></div>
+
 <div id="tweaks-root"></div>
+
+<script>
+/* ── Scripture verse tooltips ──────────────────────────
+   Hover (desktop) or tap (mobile) any scripture reference
+   to read the full verse text inline.
+   All verses from the ESV (English Standard Version).
+─────────────────────────────────────────────────────── */
+(function () {
+  const VERSES = {
+    "Psalm 119:105":    "Your word is a lamp to my feet and a light to my path.",
+    "2 Peter 3:18":     "But grow in the grace and knowledge of our Lord and Savior Jesus Christ. To him be the glory both now and to the day of eternity. Amen.",
+    "Proverbs 27:17":   "Iron sharpens iron, and one man sharpens another.",
+    "Psalm 55:22":      "Cast your burden on the LORD, and he will sustain you; he will never permit the righteous to be moved.",
+    "Proverbs 29:11":   "A fool gives full vent to his spirit, but a wise man quietly holds it back.",
+    "John 14:26":       "But the Helper, the Holy Spirit, whom the Father will send in my name, he will teach you all things and bring to your remembrance all that I have said to you.",
+    "2 Corinthians 1:24": "Not that we lord it over your faith, but we work with you for your joy, for you stand firm in your faith.",
+    "Matthew 18:19—20": "Again I say to you, if two of you agree on earth about anything they ask, it will be done for them by my Father in heaven. For where two or three are gathered in my name, there am I among them.",
+    "James 5:16":       "Therefore, confess your sins to one another and pray for one another, that you may be healed. The prayer of a righteous person has great power as it is working.",
+    "Matthew 18:20":    "For where two or three are gathered in my name, there am I among them.",
+  };
+
+  const tip = document.getElementById('verse-tip');
+  let activeEl = null;
+  let hideTimer = null;
+
+  /* ── Positioning ────────────────────────────────────── */
+  function place(refEl) {
+    // Must be in DOM but invisible so we can measure it
+    tip.style.visibility = 'hidden';
+    tip.style.display = 'block';
+
+    const PAD = 12;
+    const rect  = refEl.getBoundingClientRect();
+    const tipW  = tip.offsetWidth;
+    const tipH  = tip.offsetHeight;
+    const vw    = window.innerWidth;
+    const vh    = window.innerHeight;
+
+    // Prefer above, fall back to below
+    let top = rect.top - tipH - PAD;
+    if (top < PAD) top = rect.bottom + PAD;
+
+    // Horizontally centred on the ref, clamped to viewport
+    let left = rect.left + rect.width / 2 - tipW / 2;
+    left = Math.max(PAD, Math.min(left, vw - tipW - PAD));
+
+    tip.style.top  = top  + 'px';
+    tip.style.left = left + 'px';
+    tip.style.visibility = '';
+  }
+
+  /* ── Show / hide ────────────────────────────────────── */
+  function show(refEl) {
+    clearTimeout(hideTimer);
+    const key   = refEl.dataset.verse;
+    const verse = VERSES[key];
+    if (!verse) return;
+
+    tip.innerHTML =
+      '<div class="verse-tip-ref">' + key + '</div>' +
+      '<div class="verse-tip-text">“' + verse + '”</div>' +
+      '<div class="verse-tip-translation">ESV</div>';
+
+    place(refEl);
+    // Trigger CSS transition on next frame
+    requestAnimationFrame(() => tip.classList.add('show'));
+    activeEl = refEl;
+  }
+
+  function hide() {
+    tip.classList.remove('show');
+    activeEl = null;
+  }
+
+  function scheduleHide(delay) {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, delay || 180);
+  }
+
+  /* ── Bind events ────────────────────────────────────── */
+  // Annotate refs that have verse data and wire up events
+  document.querySelectorAll('.qa-ref').forEach(refEl => {
+    const label = refEl.querySelector('.qa-ref-label');
+    if (!label) return;
+    const key = label.textContent.trim();
+    if (!VERSES[key]) return;
+
+    refEl.dataset.verse = key;
+    refEl.setAttribute('tabindex', '0');
+    refEl.setAttribute('role', 'button');
+    refEl.setAttribute('aria-describedby', 'verse-tip');
+
+    // Desktop: hover
+    refEl.addEventListener('mouseenter', () => show(refEl));
+    refEl.addEventListener('mouseleave', () => scheduleHide());
+
+    // Keyboard
+    refEl.addEventListener('focus',   () => show(refEl));
+    refEl.addEventListener('blur',    () => scheduleHide(0));
+    refEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { hide(); refEl.blur(); }
+    });
+
+    // Mobile: tap toggles
+    refEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (activeEl === refEl && tip.classList.contains('show')) {
+        hide();
+      } else {
+        show(refEl);
+      }
+    });
+  });
+
+  // Keep tooltip alive while the mouse is over it
+  tip.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+  tip.addEventListener('mouseleave', () => scheduleHide());
+
+  // Dismiss on outside click (mobile)
+  document.addEventListener('click', (e) => {
+    if (!tip.contains(e.target) && !e.target.closest('.qa-ref[data-verse]')) {
+      hide();
+    }
+  });
+
+  // Reposition on resize/scroll so tip doesn't drift
+  window.addEventListener('resize', () => { if (activeEl) place(activeEl); }, { passive: true });
+  window.addEventListener('scroll', () => { if (activeEl) place(activeEl); }, { passive: true });
+})();
+</script>
 
 <!-- React + Babel for the tweaks panel only -->
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
